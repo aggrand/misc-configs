@@ -43,3 +43,5 @@ set expandtab
 " colored column past 80
 set colorcolumn=80
 
+" use jk to escape
+inoremap jk <esc>
