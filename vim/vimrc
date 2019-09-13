@@ -45,3 +45,7 @@ set colorcolumn=80
 
 " use jk to escape
 inoremap jk <esc>
+
+" color scheme
+" colorscheme desert-night
+colorscheme happy_hacking
