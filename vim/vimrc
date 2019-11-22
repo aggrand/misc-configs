@@ -49,9 +49,14 @@ inoremap jk <esc>
 set background=dark
 set t_Co=256
 
+" always display status line
+set laststatus=2
+
 " color scheme
 colorscheme desert-night
 " colorscheme happy_hacking
 " colorscheme badwolf
 " colorscheme jellybeans
 " colorscheme sierra
+
+nmap <F6> :NERDTreeToggle<CR>
