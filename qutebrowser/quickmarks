@@ -1,0 +1,6 @@
+evergreen https://evergreen.mongodb.com/waterfall/jstestfuzz-self-tests
+dsi https://github.com/10gen/dsi
+fuzz https://github.com/10gen/jstestfuzz
+jira https://jira.mongodb.org/secure/RapidBoard.jspa?rapidView=935
+standup https://docs.google.com/document/d/1Ebr8mgGAxw1EmuNwPl77jYW7FKd497az2XXH14491TI/edit#heading=h.s6py1c6gbqxf
+tick https://ticktick.com/#p/inbox115710357/tasks
