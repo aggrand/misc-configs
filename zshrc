@@ -9,7 +9,7 @@ export ZSH="/home/raiden/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="agnoster"
+ZSH_THEME="agnoster2"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -69,7 +69,11 @@ HYPHEN_INSENSITIVE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git
+    colored-man-pages
+    pip
+    zsh-syntax-highlighting
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -105,3 +109,9 @@ prompt_context(){}
 
 # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
 export KEYTIMEOUT=1
+
+# Sets Agnoster correctly
+#AGNOSTER_PROMPT_SEGMENTS[6]=
+AGNOSTER_PROMPT_SEGMENTS[1]=
+#AGNOSTER_PROMPT_SEGMENTS+="prompt_status"
+#AGNOSTER_PROMPT_SEGMENTS+="prompt_end"
