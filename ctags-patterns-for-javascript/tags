@@ -1,0 +1,158 @@
+!!!	index.js	/^\/\/ !!!: dear god!$/;"	T
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+???	index.js	/^\/\/ ???: what the flying fuck?$/;"	T
+BUG	index.js	/^\/\/ BUG: there's really something fishy about this$/;"	T
+ClassName	index.js	/^class ClassName {$/;"	C
+Comp01	index.js	/^var Comp01 = styled(Box)`$/;"	S
+Comp02	index.js	/^let Comp02 = styled(Box)`$/;"	S
+Comp03	index.js	/^const Comp03 = styled(Box)`$/;"	S
+Comp04	index.js	/^var Comp04 = createGlobalStyle`$/;"	S
+Comp05	index.js	/^let Comp05 = createGlobalStyle`$/;"	S
+Comp06	index.js	/^const Comp06 = createGlobalStyle`$/;"	S
+Constr_const	index.js	/^const Constr_const = function() {$/;"	C
+Constr_let	index.js	/^let Constr_let = function() {$/;"	C
+Constr_var	index.js	/^var Constr_var = function() {$/;"	C
+FIXME	index.js	/^\/\/ FIXME: fix non-working patterns$/;"	T
+HACK	index.js	/^\/\/ HACK: deployment is in 15 minutes$/;"	T
+NOBUG	index.js	/^\/\/ NOBUG: no that's OK$/;"	T
+TODO	index.js	/^\/\/ TODO: better ES6+ support$/;"	T
+XXX	index.js	/^\/\/ XXX: I. Must. Finish. That. Mess. Quickly.$/;"	T
+arr_lit	index.js	/^let arr_lit = [$/;"	A
+arr_lit_inline	index.js	/^let arr_lit_inline = [1,4];$/;"	A
+class_constr_meth	index.js	/^		this.class_constr_meth = function(){$/;"	M
+class_meth_equal	index.js	/^	class_meth_equal = function($/;"	M
+class_meth_equal_arrow	index.js	/^	class_meth_equal_arrow = ($/;"	M
+class_meth_es6	index.js	/^	class_meth_es6 = (foo) => {$/;"	M
+class_meth_generator	index.js	/^	* class_meth_generator() {$/;"	G
+class_meth_proto	index.js	/^	class_meth_proto() {$/;"	M
+class_meth_static	index.js	/^	static class_meth_static() {$/;"	M
+const_class_instance	index.js	/^const const_class_instance = new ClassName();$/;"	V
+constr_const_meth	index.js	/^	this.constr_const_meth = function() {$/;"	M
+constr_let_meth	index.js	/^	this.constr_let_meth = function() {$/;"	M
+constr_var_meth	index.js	/^	this.constr_var_meth = function() {$/;"	M
+constructor	index.js	/^	constructor(prop) {$/;"	M
+exp04	index.js	/^export { variable1 as exp04, variable2 as exp05}; \/\/ exp04; exp05$/;"	E
+exp05	index.js	/^export { variable1 as exp04, variable2 as exp05}; \/\/ exp04; exp05$/;"	E
+exp06	index.js	/^export let exp06, exp07; \/\/ exp06, exp07$/;"	E
+exp07	index.js	/^export let exp06, exp07; \/\/ exp06, exp07$/;"	E
+exp08	index.js	/^export var exp08, exp09; \/\/ exp08, exp09$/;"	E
+exp09	index.js	/^export var exp08, exp09; \/\/ exp08, exp09$/;"	E
+exp10	index.js	/^export let exp10 = 1, exp11 = 2; \/\/ exp10, exp11$/;"	E
+exp11	index.js	/^export let exp10 = 1, exp11 = 2; \/\/ exp10, exp11$/;"	E
+exp12	index.js	/^export const exp12 = 1, exp13 = 2; \/\/ exp12, exp13$/;"	E
+exp13	index.js	/^export const exp12 = 1, exp13 = 2; \/\/ exp12, exp13$/;"	E
+exp14	index.js	/^export var exp14 = 1, exp15 = 2; \/\/ exp14, exp15$/;"	E
+exp15	index.js	/^export var exp14 = 1, exp15 = 2; \/\/ exp14, exp15$/;"	E
+exp16	index.js	/^export function exp16() {} \/\/ exp16$/;"	E
+exp20	index.js	/^export default { variable1 as exp20, variable2 as exp21}; \/\/ exp20; exp21$/;"	E
+exp21	index.js	/^export default { variable1 as exp20, variable2 as exp21}; \/\/ exp20; exp21$/;"	E
+exp22	index.js	/^export default let exp22, exp23; \/\/ exp22, exp23$/;"	E
+exp23	index.js	/^export default let exp22, exp23; \/\/ exp22, exp23$/;"	E
+exp24	index.js	/^export default var exp24, exp25; \/\/ exp24, exp25$/;"	E
+exp25	index.js	/^export default var exp24, exp25; \/\/ exp24, exp25$/;"	E
+exp26	index.js	/^export default let exp26 = 1, exp27 = 2; \/\/ exp26, exp27$/;"	E
+exp27	index.js	/^export default let exp26 = 1, exp27 = 2; \/\/ exp26, exp27$/;"	E
+exp28	index.js	/^export default const exp28 = 1, exp29 = 2; \/\/ exp28, exp29$/;"	E
+exp29	index.js	/^export default const exp28 = 1, exp29 = 2; \/\/ exp28, exp29$/;"	E
+exp30	index.js	/^export default var exp30 = 1, exp31 = 2; \/\/ exp30, exp31$/;"	E
+exp31	index.js	/^export default var exp30 = 1, exp31 = 2; \/\/ exp30, exp31$/;"	E
+exp32	index.js	/^export default function exp32() {} \/\/ exp32$/;"	E
+function_arrow	index.js	/^const function_arrow = (arg) => arg;$/;"	F
+function_arrow_multiline	index.js	/^var function_arrow_multiline = ($/;"	F
+function_arrow_no_parentheses	index.js	/^const function_arrow_no_parentheses = arg => arg;$/;"	F
+function_async_basic	index.js	/^async function function_async_basic() {$/;"	F
+function_async_iife	index.js	/^(async function function_async_iife() {$/;"	F
+function_basic	index.js	/^function function_basic() {$/;"	F
+function_const	index.js	/^const function_const = function() {$/;"	F
+function_iife	index.js	/^(function function_iife() {$/;"	F
+generator_func1	index.js	/^function* generator_func1() {$/;"	G
+generator_func1_iterator	index.js	/^	var generator_func1_iterator = 0;$/;"	V
+generator_func2	index.js	/^function *generator_func2() {$/;"	G
+generator_func2_iterator	index.js	/^	var generator_func2_iterator = 0;$/;"	V
+generator_func3	index.js	/^function * generator_func3() {$/;"	G
+generator_func3_iterator	index.js	/^	var generator_func3_iterator = 0;$/;"	V
+generator_func4	index.js	/^function*generator_func4() {$/;"	G
+generator_func4_iterator	index.js	/^	var generator_func4_iterator = 0;$/;"	V
+generator_func5	index.js	/^const generator_func5 = function* () {$/;"	G
+generator_func5_iterator	index.js	/^	var generator_func5_iterator = 0;$/;"	V
+generator_func6	index.js	/^const generator_func6 = function * () {$/;"	G
+generator_func6_iterator	index.js	/^	var generator_func6_iterator = 0;$/;"	V
+imp02	index.js	/^import { * as imp02 } \/\/ imp02$/;"	I
+imp03	index.js	/^import { foo as imp03 } \/\/ imp03$/;"	I
+imp05	index.js	/^import { imp04, * as imp05 } \/\/ imp05$/;"	I
+imp07	index.js	/^import { imp06, bar as imp07 } \/\/ imp07$/;"	I
+imp10	index.js	/^import { imp08, imp09, * as imp10 } \/\/ imp10$/;"	I
+imp13	index.js	/^import { imp11, imp12, baz as imp13 } \/\/ imp13$/;"	I
+imp14	index.js	/^import { * as imp14, * as imp15, * as imp16 } \/\/ imp14, imp15, imp16$/;"	I
+imp15	index.js	/^import { * as imp14, * as imp15, * as imp16 } \/\/ imp14, imp15, imp16$/;"	I
+imp16	index.js	/^import { * as imp14, * as imp15, * as imp16 } \/\/ imp14, imp15, imp16$/;"	I
+imp17	index.js	/^import { foo as imp17, bar as imp18, baz as imp19 } \/\/ imp17, imp18, imp19$/;"	I
+imp18	index.js	/^import { foo as imp17, bar as imp18, baz as imp19 } \/\/ imp17, imp18, imp19$/;"	I
+imp19	index.js	/^import { foo as imp17, bar as imp18, baz as imp19 } \/\/ imp17, imp18, imp19$/;"	I
+imp24	index.js	/^import * as imp24 \/\/ imp24$/;"	I
+imp25	index.js	/^import foo as imp25 \/\/ imp25$/;"	I
+imp27	index.js	/^import imp26, * as imp27 \/\/ imp27$/;"	I
+imp29	index.js	/^import imp28, bar as imp29 \/\/ imp29$/;"	I
+imp32	index.js	/^import imp30, imp31, * as imp32 \/\/ imp32$/;"	I
+imp35	index.js	/^import imp33, imp34, baz as imp35 \/\/ imp35$/;"	I
+imp36	index.js	/^import * as imp36, * as imp37, * as imp38 \/\/ imp36, imp37, imp38$/;"	I
+imp37	index.js	/^import * as imp36, * as imp37, * as imp38 \/\/ imp36, imp37, imp38$/;"	I
+imp38	index.js	/^import * as imp36, * as imp37, * as imp38 \/\/ imp36, imp37, imp38$/;"	I
+imp39	index.js	/^import foo as imp39, bar as imp40, baz as imp41 \/\/ imp39, imp40, imp41$/;"	I
+imp40	index.js	/^import foo as imp39, bar as imp40, baz as imp41 \/\/ imp39, imp40, imp41$/;"	I
+imp41	index.js	/^import foo as imp39, bar as imp40, baz as imp41 \/\/ imp39, imp40, imp41$/;"	I
+impFlow06	index.js	/^import type {impFlow05 as impFlow06} from ".\/ExportNamed_Class"; \/\/ impFlow06$/;"	I
+impFlow07	index.js	/^import type * as impFlow07 from ".\/ExportNamed_Multi"; \/\/ impFlow07$/;"	I
+impFlow10	index.js	/^import typeof {impFlow09 as impFlow10} from ".\/ExportNamed_Class"; \/\/ impFlow10$/;"	I
+impFlow11	index.js	/^import typeof * as impFlow11 from ".\/ExportNamed_Multi"; \/\/ impFlow11$/;"	I
+index	index.js	/^		var index = 0;$/;"	V
+inner_prop	index.js	/^		inner_prop: bar$/;"	P
+let_class_instance	index.js	/^let let_class_instance = new ClassName();$/;"	V
+let_declaration	index.js	/^let let_declaration;$/;"	V
+let_declaration_inlined_1_of_2	index.js	/^let let_declaration_inlined_1_of_2, let_declaration_inlined_2_of_2;$/;"	V
+let_declaration_inlined_1_of_2_trailing_space	index.js	/^let let_declaration_inlined_1_of_2_trailing_space , let_declaration_inlined_2_of_2_trailing_space ;$/;"	V
+let_declaration_inlined_1_of_3	index.js	/^let let_declaration_inlined_1_of_3, let_declaration_inlined_2_of_3, let_declaration_inlined_3_of_3;$/;"	V
+let_declaration_inlined_1_of_3_trailing_space	index.js	/^let let_declaration_inlined_1_of_3_trailing_space , let_declaration_inlined_2_of_3_trailing_space , let_declaration_inlined_3_of_3_trailing_space ;$/;"	V
+let_declaration_inlined_2_of_2	index.js	/^let let_declaration_inlined_1_of_2, let_declaration_inlined_2_of_2;$/;"	V
+let_declaration_inlined_2_of_2_trailing_space	index.js	/^let let_declaration_inlined_1_of_2_trailing_space , let_declaration_inlined_2_of_2_trailing_space ;$/;"	V
+let_declaration_inlined_2_of_3	index.js	/^let let_declaration_inlined_1_of_3, let_declaration_inlined_2_of_3, let_declaration_inlined_3_of_3;$/;"	V
+let_declaration_inlined_2_of_3_trailing_space	index.js	/^let let_declaration_inlined_1_of_3_trailing_space , let_declaration_inlined_2_of_3_trailing_space , let_declaration_inlined_3_of_3_trailing_space ;$/;"	V
+let_declaration_inlined_3_of_3	index.js	/^let let_declaration_inlined_1_of_3, let_declaration_inlined_2_of_3, let_declaration_inlined_3_of_3;$/;"	V
+let_declaration_inlined_3_of_3_trailing_space	index.js	/^let let_declaration_inlined_1_of_3_trailing_space , let_declaration_inlined_2_of_3_trailing_space , let_declaration_inlined_3_of_3_trailing_space ;$/;"	V
+let_declaration_trailing_space	index.js	/^let let_declaration_trailing_space ;$/;"	V
+let_double_quotes	index.js	/^let let_double_quotes = "bar";$/;"	V
+let_single_quotes	index.js	/^let let_single_quotes = 'foo';$/;"	V
+obj_lit	index.js	/^var obj_lit = {$/;"	O
+obj_lit_inline	index.js	/^var obj_lit_inline = { obj_lit_inline_prop: 1 };$/;"	O
+obj_lit_prop_array	index.js	/^	obj_lit_prop_array: [$/;"	P
+obj_lit_prop_method	index.js	/^	obj_lit_prop_method : function($/;"	M
+obj_lit_prop_method_arrow	index.js	/^	obj_lit_prop_method_arrow : ($/;"	M
+obj_lit_prop_number	index.js	/^	obj_lit_prop_number: 123,$/;"	P
+obj_lit_prop_object	index.js	/^	obj_lit_prop_object : {$/;"	P
+obj_lit_prop_regexp	index.js	/^	obj_lit_prop_regexp : \/regexp\/,$/;"	P
+obj_lit_prop_string	index.js	/^	obj_lit_prop_string : "eee",$/;"	P
+this_inner_prop	index.js	/^	this_inner_prop: "bar"$/;"	P
+this_prop	index.js	/^this.this_prop = {$/;"	M
+this_prop	index.js	/^this.this_prop = {$/;"	P
+this_prop_method	index.js	/^this.this_prop_method = function($/;"	M
+this_prop_method_arrow	index.js	/^this.this_prop_method_arrow = ($/;"	M
+var_class_instance	index.js	/^var var_class_instance = new ClassName();$/;"	V
+var_const_number	index.js	/^const var_const_number = 1;$/;"	V
+var_declaration	index.js	/^var var_declaration;$/;"	V
+var_declaration_inlined_1_of_2	index.js	/^var var_declaration_inlined_1_of_2, var_declaration_inlined_2_of_2;$/;"	V
+var_declaration_inlined_1_of_2_trailing_space	index.js	/^var var_declaration_inlined_1_of_2_trailing_space , var_declaration_inlined_2_of_2_trailing_space ;$/;"	V
+var_declaration_inlined_1_of_3	index.js	/^var var_declaration_inlined_1_of_3, var_declaration_inlined_2_of_3, var_declaration_inlined_3_of_3;$/;"	V
+var_declaration_inlined_1_of_3_trailing_space	index.js	/^var var_declaration_inlined_1_of_3_trailing_space , var_declaration_inlined_2_of_3_trailing_space , var_declaration_inlined_3_of_3_trailing_space ;$/;"	V
+var_declaration_inlined_2_of_2	index.js	/^var var_declaration_inlined_1_of_2, var_declaration_inlined_2_of_2;$/;"	V
+var_declaration_inlined_2_of_2_trailing_space	index.js	/^var var_declaration_inlined_1_of_2_trailing_space , var_declaration_inlined_2_of_2_trailing_space ;$/;"	V
+var_declaration_inlined_2_of_3	index.js	/^var var_declaration_inlined_1_of_3, var_declaration_inlined_2_of_3, var_declaration_inlined_3_of_3;$/;"	V
+var_declaration_inlined_2_of_3_trailing_space	index.js	/^var var_declaration_inlined_1_of_3_trailing_space , var_declaration_inlined_2_of_3_trailing_space , var_declaration_inlined_3_of_3_trailing_space ;$/;"	V
+var_declaration_inlined_3_of_3	index.js	/^var var_declaration_inlined_1_of_3, var_declaration_inlined_2_of_3, var_declaration_inlined_3_of_3;$/;"	V
+var_declaration_inlined_3_of_3_trailing_space	index.js	/^var var_declaration_inlined_1_of_3_trailing_space , var_declaration_inlined_2_of_3_trailing_space , var_declaration_inlined_3_of_3_trailing_space ;$/;"	V
+var_declaration_trailing_space	index.js	/^var var_declaration_trailing_space ;$/;"	V
+var_var_regexp	index.js	/^var var_var_regexp = \/regexp\/;$/;"	V
