@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/raiden/.oh-my-zsh"
+export ZSH="/Users/carlworley/.oh-my-zsh"
 
 
 # Set name of the theme to load --- if set to "random", it will
@@ -111,7 +111,15 @@ prompt_context(){}
 export KEYTIMEOUT=1
 
 # Sets Agnoster correctly
-#AGNOSTER_PROMPT_SEGMENTS[6]=
+# Currently removing git integration because it just takes too long on 
+# large repositories.
+AGNOSTER_PROMPT_SEGMENTS[5]=
 AGNOSTER_PROMPT_SEGMENTS[1]=
 #AGNOSTER_PROMPT_SEGMENTS+="prompt_status"
 #AGNOSTER_PROMPT_SEGMENTS+="prompt_end"
+
+alias itg='./scripts/lamp && ./build/src/metrics/metrics_test'
+#PATH=/opt/mongodbtoolchain/v3/bin:$PATH
+export GOPATH=/Users/carlworley/go
+PATH=/Users/carlworley/go/src/github.com/mongodb/curator:$PATH
+PATH=/Users/carlworley/mongodb/genny/build/src/driver:$PATH
