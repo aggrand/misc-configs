@@ -61,6 +61,8 @@
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "(%d/%d) "))
 
+(global-set-key [remap org-set-tags-command] #'counsel-org-tag)
+
 (use-package ivy-rich
   :init
   (ivy-rich-mode 1))
@@ -236,13 +238,22 @@
 		     "/Entered on/ %U"))))
 
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+
   (setq org-agenda-custom-commands 
       '(("w" "Work-related tasks" tags-todo "@work"
          ((org-agenda-overriding-header "Work")))
-	("h" "Personal tasks" tags-todo "@home"
+  	("h" "Personal tasks" tags-todo "@home"
          ((org-agenda-overriding-header "Home")))
-	))
+  	))
+  (setq org-tag-alist
+    '((:startgroup)
+       ; Put mutually exclusive tags here
+       (:endgroup)
+       ("@errand" . ?E)
+       ("@home" . ?H)
+       ("@work" . ?W)))
 
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
 
   (crw/org-font-setup))
 
