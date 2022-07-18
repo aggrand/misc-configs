@@ -151,6 +151,15 @@
 (load-file "~/.emacs.d/bazel/bazel.el")
 (add-to-list 'auto-mode-alist '("\\.star\\'" . bazel-starlark-mode))
 
+(setq user-init-file "~/.emacs.d/init.el")
+(defun open-init-file ()
+  "Open the init file."
+  (interactive)
+  (find-file user-init-file))
+(crw/leader-keys
+  "i" 'open-init-file)
+
+
 ;; -----------------------------------------
 ;; Org-mode
 ;; -----------------------------------------
@@ -172,7 +181,7 @@
   ;;                 (org-level-7 . 1.1)
   ;;                 (org-level-8 . 1.1)))
   ;;   (set-face-attribute (car face) nil :font "ETBembo" :weight 'regular :height (cdr face)))
-
+ 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   ;;(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
   ;;(set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
@@ -197,26 +206,43 @@
 	org-hide-emphasis-markers t)
 
   (setq org-agenda-start-with-log-mode t)
+  ;; Filter out agenda prefix and tags.
+  (setq org-agenda-prefix-format
+      '((agenda . " %i %-12:c%?-12t% s")
+        (todo   . " ")
+        (tags   . " %i %-12:c")
+        (search . " %i %-12:c")))
+  (setq org-agenda-hide-tags-regexp ".")
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
 
-  ;;(setq org-agenda-files '("~/gtd/inbox.org"
-  ;;			   "~/gtd/gtd.org"
-  ;;                         "~/gtd/tickler.org"))
+  
   ;;(setq org-capture-templates '(("t" "Todo [inbox]" entry
   ;;                             (file+headline "~/gtd/inbox.org" "Tasks")
   ;;                             "* TODO %i%?")))
-  ;;(setq org-refile-targets '(("~/gtd/projects.org" :maxlevel . 3)
-  ;;                         ("~/gtd/someday.org" :level . 1)
-  ;;                         ("~/gtd/tickler.org" :maxlevel . 2)))
 
+  (setq org-refile-targets '(("~/org/projects.org" :maxlevel . 3)
+			     ("~/org/someday.org" :level . 1)
+                             ("~/org/tickler.org" :maxlevel . 2)))
+
+  (setq org-agenda-files '("~/org/inbox.org"
+  			   "~/org/projects.org"
+                           "~/org/tickler.org"))
   (setq org-directory "~/org")
-  (setq org-agenda-files (list "inbox.org"))
 
   (setq org-capture-templates
 	`(("i" "Inbox" entry (file "inbox.org")
 	   , (concat "* TODO %?\n"
 		     "/Entered on/ %U"))))
+
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+  (setq org-agenda-custom-commands 
+      '(("w" "Work-related tasks" tags-todo "@work"
+         ((org-agenda-overriding-header "Work")))
+	("h" "Personal tasks" tags-todo "@home"
+         ((org-agenda-overriding-header "Home")))
+	))
+
 
   (crw/org-font-setup))
 
@@ -240,6 +266,7 @@
 
 (defhydra hydra-org-tools (:timeout 4)
   "org tools"
+  ("a" org-agenda "agenda":exit t)
   ("c" org-capture "capture":exit t))
 (crw/leader-keys
   "o" '(hydra-org-tools/body :which-key "org tools"))
