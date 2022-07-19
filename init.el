@@ -36,6 +36,26 @@
 
 (use-package hydra)
 
+;; font size
+(set-face-attribute 'default nil :font "Hack" :height 220)
+
+;; Set the variable pitch face
+(set-face-attribute 'variable-pitch nil :font "ETBembo" :height 220)
+
+(defhydra hydra-text-scale (:timeout 4)
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-decrease "out")
+  ("f" nil "finished" :exit t))
+(crw/leader-keys
+  "s" '(hydra-text-scale/body :which-key "scale text"))
+
+(load-theme 'darktooth)
+
+;; Annoying
+(setq ring-bell-function 'ignore)
+
+(scroll-bar-mode -1)
 
 ;; TODO: Previous line doesn't work.
 ;; TODO: A better indicator? > instead of highlight?
@@ -72,29 +92,6 @@
 (use-package ivy-prescient
   :config
   (ivy-prescient-mode 1))
-
-(use-package projectile
-  :diminish projectile-mode
-  :config (projectile-mode)
-  :custom (projectile-completion-system 'ivy)
-  ;; :bind-keymap
-  ;; ("C-c p" . projectile-command-map)
-  :init
-  (when (file-directory-p "~/projects")
-    (setq projectile-project-search-path '("~/projects")))
-  (setq projectile-switch-project-action #'magit-status))
-
-(crw/leader-keys
-  "p" 'projectile-command-map)
-
-(setq explicit-shell-file-name "/usr/local/bin/zsh")
-
-(crw/leader-keys
-  "t" 'term)
-
-;; -----------------------------------------
-;; Editing
-;; -----------------------------------------
 
 ;; evil mode muahaha
 (use-package evil
@@ -136,10 +133,20 @@
 ;; autocomplete paired brackets
 (electric-pair-mode 1)
 
-;; -----------------------------------------
-;; Apps
-;; -----------------------------------------
-;; TODO: Explore more
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :custom (projectile-completion-system 'ivy)
+  ;; :bind-keymap
+  ;; ("C-c p" . projectile-command-map)
+  :init
+  (when (file-directory-p "~/projects")
+    (setq projectile-project-search-path '("~/projects")))
+  (setq projectile-switch-project-action #'magit-status))
+
+(crw/leader-keys
+  "p" 'projectile-command-map)
+
 (use-package magit)
 
 (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
@@ -150,8 +157,28 @@
 ;; TODO: Authenticate
 (use-package forge)
 
+(setq explicit-shell-file-name "/usr/local/bin/zsh")
+
+(crw/leader-keys
+  "t" 'term)
+
 (load-file "~/.emacs.d/bazel/bazel.el")
 (add-to-list 'auto-mode-alist '("\\.star\\'" . bazel-starlark-mode))
+
+(use-package yaml-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
+
+(use-package markdown-mode
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+(use-package terraform-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode)))
 
 (setq user-init-file "~/.emacs.d/init.el")
 (defun open-init-file ()
@@ -160,45 +187,6 @@
   (find-file user-init-file))
 (crw/leader-keys
   "i" 'open-init-file)
-
-
-;; -----------------------------------------
-;; Org-mode
-;; -----------------------------------------
-
-;; TODO: Some of this doesn't work?
-(defun crw/org-font-setup ()
-  ;; Replace list hyphen with dot
-  (font-lock-add-keywords 'org-mode
-                          '(("^ *\\([-]\\) "
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-  ;; TODO: Different sizes not working?
-  ;; Set faces for heading levels
-  ;; (dolist (face '((org-level-1 . 1.2)
-  ;;                 (org-level-2 . 1.1)
-  ;;                 (org-level-3 . 1.05)
-  ;;                 (org-level-4 . 1.0)
-  ;;                 (org-level-5 . 1.1)
-  ;;                 (org-level-6 . 1.1)
-  ;;                 (org-level-7 . 1.1)
-  ;;                 (org-level-8 . 1.1)))
-  ;;   (set-face-attribute (car face) nil :font "ETBembo" :weight 'regular :height (cdr face)))
- 
-  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-  ;;(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-  ;;(set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
-  ;;(set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
-  ;;(set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-  ;;(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-  ;;(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-  ;;(set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
-)
-
-;; TODO: variable pitch breaks indent
-(defun crw/org-mode-setup ()
-  (org-indent-mode)
-  ;;(variable-pitch-mode 1)
-  (visual-line-mode 1))
 
 ;; TODO: remove underline
 (use-package org
@@ -257,30 +245,66 @@
 
   (crw/org-font-setup))
 
-(require 'org-tempo)
+;; TODO: Some of this doesn't work?
+(defun crw/org-font-setup ()
+    ;; Replace list hyphen with dot
+    (font-lock-add-keywords 'org-mode
+                            '(("^ *\\([-]\\) "
+                                (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+    ;; TODO: Different sizes not working?
+    ;; Set faces for heading levels
+    ;; (dolist (face '((org-level-1 . 1.2)
+    ;;                 (org-level-2 . 1.1)
+    ;;                 (org-level-3 . 1.05)
+    ;;                 (org-level-4 . 1.0)
+    ;;                 (org-level-5 . 1.1)
+    ;;                 (org-level-6 . 1.1)
+    ;;                 (org-level-7 . 1.1)
+    ;;                 (org-level-8 . 1.1)))
+    ;;   (set-face-attribute (car face) nil :font "ETBembo" :weight 'regular :height (cdr face)))
 
-(add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-(add-to-list 'org-structure-template-alist '("py" . "src python"))
+    ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+    ;;(set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+    ;;(set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+    ;;(set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
+    ;;(set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+    ;;(set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+    ;;(set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+    ;;(set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+)
 
+;; TODO: variable pitch breaks indent
+(defun crw/org-mode-setup ()
+    (org-indent-mode)
+    ;;(variable-pitch-mode 1)
+    (visual-line-mode 1))
 
-(use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+  (use-package org-bullets
+    :after org
+    :hook (org-mode . org-bullets-mode)
+    :custom
+    (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-(defun efs/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
+  (defun efs/org-mode-visual-fill ()
+    (setq visual-fill-column-width 100
+          visual-fill-column-center-text t)
+    (visual-fill-column-mode 1))
 
-(use-package visual-fill-column
-  :hook (org-mode . efs/org-mode-visual-fill))
+  (use-package visual-fill-column
+    :hook (org-mode . efs/org-mode-visual-fill))
 
-;;(crw/leader-keys
-;;  "o" (lambda () (interactive) (find-file "~/OrgFiles/gtd.org")))
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+           '((emacs-lisp . t)
+             (python . t)))
 
+       (push '("conf-unix" . conf-unix) org-src-lang-modes)
+
+     (require 'org-tempo)
+
+     (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+     (add-to-list 'org-structure-template-alist '("py" . "src python"))
 
 (defhydra hydra-org-tools (:timeout 4)
   "org tools"
@@ -288,56 +312,6 @@
   ("c" org-capture "capture":exit t))
 (crw/leader-keys
   "o" '(hydra-org-tools/body :which-key "org tools"))
-
-
-
-
-;; -----------------------------------------
-;; Major Modes
-;; -----------------------------------------
-
-(use-package yaml-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
-
-(use-package markdown-mode
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
-
-(use-package terraform-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode)))
-
-;; font size
-(set-face-attribute 'default nil :font "Hack" :height 220)
-
-;; Set the variable pitch face
-(set-face-attribute 'variable-pitch nil :font "ETBembo" :height 220)
-
-(defhydra hydra-text-scale (:timeout 4)
-  "scale text"
-  ("j" text-scale-increase "in")
-  ("k" text-scale-decrease "out")
-  ("f" nil "finished" :exit t))
-(crw/leader-keys
-  "s" '(hydra-text-scale/body :which-key "scale text"))
-
-(load-theme 'darktooth)
-
-;; Annoying
-(setq ring-bell-function 'ignore)
-
-(scroll-bar-mode -1)
-
-(org-babel-do-load-languages
-    'org-babel-load-languages
-    '((emacs-lisp . t)
-      (python . t)))
-
-(push '("conf-unix" . conf-unix) org-src-lang-modes)
 
 ;; Automatically tangle our Emacs.org config file when we save it
 (defun efs/org-babel-tangle-config ()
