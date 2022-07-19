@@ -180,6 +180,23 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode)))
 
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+
+(use-package lsp-mode
+      :commands (lsp lsp-deferred)
+      :hook (lsp-mode . efs/lsp-mode-setup)
+      :init
+      (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
+      :config
+      (lsp-enable-which-key-integration t))
+
+(crw/leader-keys
+  "l" 'lsp-command-map)
+
 (setq user-init-file "~/.emacs.d/init.el")
 (defun open-init-file ()
   "Open the init file."

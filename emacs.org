@@ -160,7 +160,6 @@
 #+end_src
 
 * Development
-
 ** Projectile
 
 #+begin_src emacs-lisp
@@ -224,6 +223,37 @@
 (use-package terraform-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode)))
+#+end_src
+*** Typescript
+A basic typescript setup. 
+
+#+begin_src emacs-lisp
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+#+end_src
+
+Note that this requires a ts language server. For example: 
+
+#+begin_src shell :tangle no
+npm install -g typescript-language-server typescript
+#+end_src
+
+
+*** Language Servers
+#+begin_src emacs-lisp
+    (use-package lsp-mode
+        :commands (lsp lsp-deferred)
+        :hook (lsp-mode . efs/lsp-mode-setup)
+        :init
+        (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
+        :config
+        (lsp-enable-which-key-integration t))
+
+  (crw/leader-keys
+    "l" 'lsp-command-map)
 #+end_src
 ** Init Helper
 #+begin_src emacs-lisp
