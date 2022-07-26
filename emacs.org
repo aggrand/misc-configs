@@ -270,62 +270,63 @@ npm install -g typescript-language-server typescript
 
 ** Basic Setup
 #+begin_src emacs-lisp
-;; TODO: remove underline
-(use-package org
-  :hook (org-mode . crw/org-mode-setup)
-  :config
-  (setq org-ellipsis " ▾"
-	org-hide-emphasis-markers t)
+  ;; TODO: remove underline
+  (use-package org
+    :hook (org-mode . crw/org-mode-setup)
+    :config
+    (setq org-ellipsis " ▾"
+          org-hide-emphasis-markers t)
 
-  (setq org-agenda-start-with-log-mode t)
-  ;; Filter out agenda prefix and tags.
-  (setq org-agenda-prefix-format
-      '((agenda . " %i %-12:c%?-12t% s")
-        (todo   . " ")
-        (tags   . " %i %-12:c")
-        (search . " %i %-12:c")))
-  (setq org-agenda-hide-tags-regexp ".")
-  (setq org-log-done 'time)
-  (setq org-log-into-drawer t)
+    (setq org-agenda-start-with-log-mode t)
+    ;; Filter out agenda prefix and tags.
+    (setq org-agenda-prefix-format
+        '((agenda . " %i %-12:c%?-12t% s")
+          (todo   . " ")
+          (tags   . " %i %-12:c")
+          (search . " %i %-12:c")))
+    (setq org-agenda-hide-tags-regexp ".")
+    (setq org-log-done 'time)
+    (setq org-log-into-drawer t)
 
-  
-  ;;(setq org-capture-templates '(("t" "Todo [inbox]" entry
-  ;;                             (file+headline "~/gtd/inbox.org" "Tasks")
-  ;;                             "* TODO %i%?")))
 
-  (setq org-refile-targets '(("~/org/projects.org" :maxlevel . 3)
-			     ("~/org/someday.org" :level . 1)
-                             ("~/org/tickler.org" :maxlevel . 2)))
+    ;;(setq org-capture-templates '(("t" "Todo [inbox]" entry
+    ;;                             (file+headline "~/gtd/inbox.org" "Tasks")
+    ;;                             "* TODO %i%?")))
 
-  (setq org-agenda-files '("~/org/inbox.org"
-  			   "~/org/projects.org"
-                           "~/org/tickler.org"))
-  (setq org-directory "~/org")
+    (setq org-refile-targets '(("~/org/projects.org" :maxlevel . 3)
+                               ("~/org/someday.org" :level . 1)
+                               ("~/org/archive.org" :level . 1)
+                               ("~/org/tickler.org" :maxlevel . 2)))
 
-  (setq org-capture-templates
-	`(("i" "Inbox" entry (file "inbox.org")
-	   , (concat "* TODO %?\n"
-		     "/Entered on/ %U"))))
+    (setq org-agenda-files '("~/org/inbox.org"
+                             "~/org/projects.org"
+                             "~/org/tickler.org"))
+    (setq org-directory "~/org")
 
-  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+    (setq org-capture-templates
+          `(("i" "Inbox" entry (file "inbox.org")
+             , (concat "* TODO %?\n"
+                       "/Entered on/ %U"))))
 
-  (setq org-agenda-custom-commands 
-      '(("w" "Work-related tasks" tags-todo "@work"
-         ((org-agenda-overriding-header "Work")))
-  	("h" "Personal tasks" tags-todo "@home"
-         ((org-agenda-overriding-header "Home")))
-  	))
-  (setq org-tag-alist
-    '((:startgroup)
-       ; Put mutually exclusive tags here
-       (:endgroup)
-       ("@errand" . ?E)
-       ("@home" . ?H)
-       ("@work" . ?W)))
+    (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
-  (advice-add 'org-refile :after 'org-save-all-org-buffers)
+    (setq org-agenda-custom-commands 
+        '(("w" "Work-related tasks" tags-todo "@work"
+           ((org-agenda-overriding-header "Work")))
+          ("h" "Personal tasks" tags-todo "@home"
+           ((org-agenda-overriding-header "Home")))
+          ))
+    (setq org-tag-alist
+      '((:startgroup)
+         ; Put mutually exclusive tags here
+         (:endgroup)
+         ("@errand" . ?E)
+         ("@home" . ?H)
+         ("@work" . ?W)))
 
-  (crw/org-font-setup))
+    (advice-add 'org-refile :after 'org-save-all-org-buffers)
+
+    (crw/org-font-setup))
 #+end_src
 
 ** Aesthetic

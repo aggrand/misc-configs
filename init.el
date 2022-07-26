@@ -210,7 +210,7 @@
   :hook (org-mode . crw/org-mode-setup)
   :config
   (setq org-ellipsis " ▾"
-	org-hide-emphasis-markers t)
+        org-hide-emphasis-markers t)
 
   (setq org-agenda-start-with-log-mode t)
   ;; Filter out agenda prefix and tags.
@@ -223,33 +223,34 @@
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
 
-  
+
   ;;(setq org-capture-templates '(("t" "Todo [inbox]" entry
   ;;                             (file+headline "~/gtd/inbox.org" "Tasks")
   ;;                             "* TODO %i%?")))
 
   (setq org-refile-targets '(("~/org/projects.org" :maxlevel . 3)
-			     ("~/org/someday.org" :level . 1)
+                             ("~/org/someday.org" :level . 1)
+                             ("~/org/archive.org" :level . 1)
                              ("~/org/tickler.org" :maxlevel . 2)))
 
   (setq org-agenda-files '("~/org/inbox.org"
-  			   "~/org/projects.org"
+                           "~/org/projects.org"
                            "~/org/tickler.org"))
   (setq org-directory "~/org")
 
   (setq org-capture-templates
-	`(("i" "Inbox" entry (file "inbox.org")
-	   , (concat "* TODO %?\n"
-		     "/Entered on/ %U"))))
+        `(("i" "Inbox" entry (file "inbox.org")
+           , (concat "* TODO %?\n"
+                     "/Entered on/ %U"))))
 
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
   (setq org-agenda-custom-commands 
       '(("w" "Work-related tasks" tags-todo "@work"
          ((org-agenda-overriding-header "Work")))
-  	("h" "Personal tasks" tags-todo "@home"
+        ("h" "Personal tasks" tags-todo "@home"
          ((org-agenda-overriding-header "Home")))
-  	))
+        ))
   (setq org-tag-alist
     '((:startgroup)
        ; Put mutually exclusive tags here
