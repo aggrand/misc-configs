@@ -3,29 +3,30 @@
 
 * Package System Setup
 #+begin_src emacs-lisp
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(package-initialize)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("d2e0c53dbc47b35815315fae5f352afd2c56fa8e69752090990563200daae434" default))
- '(initial-frame-alist '((fullscreen . maximized)))
- '(org-export-backends '(ascii html icalendar latex md odt))
- '(package-selected-packages
-   '(org-tempo visual-fill-column org-bullets forge evil-magit magit projectile hydra general ivy-rich rainbow-delimiters markdown-mode evil-collection ivy-prescient prescient doom-modeline yaml-mode counsel ivy which-key darktooth-theme key-chord evil)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+  (require 'package)
+  (add-to-list 'package-archives '(("melpa" . "http://melpa.org/packages/")
+                                   ("gnu" . "http://elpa.gnu.org/packages/")))
+  (package-initialize)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(custom-safe-themes
+     '("d2e0c53dbc47b35815315fae5f352afd2c56fa8e69752090990563200daae434" default))
+   '(initial-frame-alist '((fullscreen . maximized)))
+   '(org-export-backends '(ascii html icalendar latex md odt))
+   '(package-selected-packages
+     '(org-tempo visual-fill-column org-bullets forge evil-magit magit projectile hydra general ivy-rich rainbow-delimiters markdown-mode evil-collection ivy-prescient prescient doom-modeline yaml-mode counsel ivy which-key darktooth-theme key-chord evil)))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
 
-(require 'use-package)
-(setq use-package-always-ensure t)
+  (require 'use-package)
+  (setq use-package-always-ensure t)
 #+end_src
 
 * UI Configuration
@@ -83,19 +84,19 @@
 ;; TODO: A better indicator? > instead of highlight?
 ;; TODO: Emacs bindings don't quite work and fail at startup.
 (use-package counsel
-  ;;:bind (("C-s" . swiper)
-  ;;  :map ivy-minibuffer-map
-  ;;  ("TAB" . ivy-alt-done)	
-  ;;  ("C-l" . ivy-alt-done)
-  ;;  ("C-j" . ivy-next-line)
-  ;;  ("C-k" . ivy-previous-line-or-history)
-  ;;  :map ivy-switch-buffer-map
-  ;;  ("C-k" . ivy-previous-line)
-  ;;  ("C-l" . ivy-done)
-  ;;  ("C-d" . ivy-switch-buffer-kill)
-  ;;  :map ivy-reverse-i-search-map
-  ;;  ("C-k" . ivy-previous-line)
-  ;;  ("C-d" . ivy-reverse-i-search-kill))
+  :bind (("C-s" . swiper)
+    :map ivy-minibuffer-map
+    ("TAB" . ivy-alt-done)	
+    ("C-l" . ivy-alt-done)
+    ("C-j" . ivy-next-line)
+    ("C-k" . ivy-previous-line-or-history)
+    :map ivy-switch-buffer-map
+    ("C-k" . ivy-previous-line)
+    ("C-l" . ivy-done)
+    ("C-d" . ivy-switch-buffer-kill)
+    :map ivy-reverse-i-search-map
+    ("C-k" . ivy-previous-line)
+    ("C-d" . ivy-reverse-i-search-kill))
   :config
   (ivy-mode 1)
   (counsel-mode 1)
@@ -177,6 +178,21 @@
 (crw/leader-keys
   "p" 'projectile-command-map)
 #+end_src
+** Company Mode
+#+begin_src emacs-lisp
+  (use-package company
+    :after lsp-mode
+    :hook (lsp-mode . company-mode)
+    :bind (:map company-active-map
+           ("<tab>" . company-complete-selection))
+          (:map lsp-mode-map
+           ("<tab>" . company-indent-or-complete-common))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.0))
+
+(setq company-backends '((company-capf company-dabbrev-code)))
+#+end_src
 
 ** Magit
 #+begin_src emacs-lisp
@@ -200,14 +216,18 @@
 ** Languages
 *** Language Servers
 #+begin_src emacs-lisp
-  (use-package lsp-mode
-      :commands (lsp lsp-deferred)
-      :hook (lsp-mode . efs/lsp-mode-setup)
-      :init
-      ;; TODO: Properly use the general leader.
-      (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-c l' 'C-l', 's-l'
-      :config
-      (lsp-enable-which-key-integration t))
+  (defun efs/lsp-mode-setup ()
+    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+    (lsp-headerline-breadcrumb-mode))
+
+    (use-package lsp-mode
+        :commands (lsp lsp-deferred)
+        :hook (lsp-mode . efs/lsp-mode-setup)
+        :init
+        ;; TODO: Properly use the general leader.
+        (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-c l' 'C-l', 's-l'
+        :config
+        (lsp-enable-which-key-integration t))
 #+end_src
 *** Bazel
 #+begin_src emacs-lisp
@@ -259,7 +279,6 @@ npm install -g typescript-language-server typescript
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 #+end_src
-
 
 ** Init Helper
 #+begin_src emacs-lisp

@@ -1,5 +1,6 @@
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '(("melpa" . "http://melpa.org/packages/")
+                                 ("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -61,19 +62,19 @@
 ;; TODO: A better indicator? > instead of highlight?
 ;; TODO: Emacs bindings don't quite work and fail at startup.
 (use-package counsel
-  ;;:bind (("C-s" . swiper)
-  ;;  :map ivy-minibuffer-map
-  ;;  ("TAB" . ivy-alt-done)	
-  ;;  ("C-l" . ivy-alt-done)
-  ;;  ("C-j" . ivy-next-line)
-  ;;  ("C-k" . ivy-previous-line-or-history)
-  ;;  :map ivy-switch-buffer-map
-  ;;  ("C-k" . ivy-previous-line)
-  ;;  ("C-l" . ivy-done)
-  ;;  ("C-d" . ivy-switch-buffer-kill)
-  ;;  :map ivy-reverse-i-search-map
-  ;;  ("C-k" . ivy-previous-line)
-  ;;  ("C-d" . ivy-reverse-i-search-kill))
+  :bind (("C-s" . swiper)
+    :map ivy-minibuffer-map
+    ("TAB" . ivy-alt-done)	
+    ("C-l" . ivy-alt-done)
+    ("C-j" . ivy-next-line)
+    ("C-k" . ivy-previous-line-or-history)
+    :map ivy-switch-buffer-map
+    ("C-k" . ivy-previous-line)
+    ("C-l" . ivy-done)
+    ("C-d" . ivy-switch-buffer-kill)
+    :map ivy-reverse-i-search-map
+    ("C-k" . ivy-previous-line)
+    ("C-d" . ivy-reverse-i-search-kill))
   :config
   (ivy-mode 1)
   (counsel-mode 1)
@@ -147,6 +148,19 @@
 (crw/leader-keys
   "p" 'projectile-command-map)
 
+(use-package company
+    :after lsp-mode
+    :hook (lsp-mode . company-mode)
+    :bind (:map company-active-map
+           ("<tab>" . company-complete-selection))
+          (:map lsp-mode-map
+           ("<tab>" . company-indent-or-complete-common))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.0))
+
+(setq company-backends '((company-capf company-dabbrev-code)))
+
 (use-package magit)
 
 (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
@@ -162,14 +176,18 @@
 (crw/leader-keys
   "t" 'term)
 
-(use-package lsp-mode
-    :commands (lsp lsp-deferred)
-    :hook (lsp-mode . efs/lsp-mode-setup)
-    :init
-    ;; TODO: Properly use the general leader.
-    (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-c l' 'C-l', 's-l'
-    :config
-    (lsp-enable-which-key-integration t))
+(defun efs/lsp-mode-setup ()
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+
+  (use-package lsp-mode
+      :commands (lsp lsp-deferred)
+      :hook (lsp-mode . efs/lsp-mode-setup)
+      :init
+      ;; TODO: Properly use the general leader.
+      (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-c l' 'C-l', 's-l'
+      :config
+      (lsp-enable-which-key-integration t))
 
 (load-file "~/.emacs.d/bazel/bazel.el")
 (add-to-list 'auto-mode-alist '("\\.star\\'" . bazel-starlark-mode))
