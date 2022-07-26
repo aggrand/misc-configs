@@ -162,6 +162,15 @@
 (crw/leader-keys
   "t" 'term)
 
+(use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :hook (lsp-mode . efs/lsp-mode-setup)
+    :init
+    ;; TODO: Properly use the general leader.
+    (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-c l' 'C-l', 's-l'
+    :config
+    (lsp-enable-which-key-integration t))
+
 (load-file "~/.emacs.d/bazel/bazel.el")
 (add-to-list 'auto-mode-alist '("\\.star\\'" . bazel-starlark-mode))
 
@@ -186,16 +195,10 @@
   :config
   (setq typescript-indent-level 2))
 
-(use-package lsp-mode
-      :commands (lsp lsp-deferred)
-      :hook (lsp-mode . efs/lsp-mode-setup)
-      :init
-      (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
-      :config
-      (lsp-enable-which-key-integration t))
+(setq lsp-clangd-binary-path "/usr/local/opt/llvm/bin/clangd")
 
-(crw/leader-keys
-  "l" 'lsp-command-map)
+(add-hook 'c-mode-hook 'lsp)
+(add-hook 'c++-mode-hook 'lsp)
 
 (setq user-init-file "~/.emacs.d/init.el")
 (defun open-init-file ()

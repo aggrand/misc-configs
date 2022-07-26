@@ -198,6 +198,17 @@
   "t" 'term)
 #+end_src
 ** Languages
+*** Language Servers
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+      :commands (lsp lsp-deferred)
+      :hook (lsp-mode . efs/lsp-mode-setup)
+      :init
+      ;; TODO: Properly use the general leader.
+      (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-c l' 'C-l', 's-l'
+      :config
+      (lsp-enable-which-key-integration t))
+#+end_src
 *** Bazel
 #+begin_src emacs-lisp
 (load-file "~/.emacs.d/bazel/bazel.el")
@@ -241,20 +252,15 @@ Note that this requires a ts language server. For example:
 npm install -g typescript-language-server typescript
 #+end_src
 
-
-*** Language Servers
+*** C/C++
 #+begin_src emacs-lisp
-    (use-package lsp-mode
-        :commands (lsp lsp-deferred)
-        :hook (lsp-mode . efs/lsp-mode-setup)
-        :init
-        (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
-        :config
-        (lsp-enable-which-key-integration t))
+(setq lsp-clangd-binary-path "/usr/local/opt/llvm/bin/clangd")
 
-  (crw/leader-keys
-    "l" 'lsp-command-map)
+(add-hook 'c-mode-hook 'lsp)
+(add-hook 'c++-mode-hook 'lsp)
 #+end_src
+
+
 ** Init Helper
 #+begin_src emacs-lisp
 (setq user-init-file "~/.emacs.d/init.el")
