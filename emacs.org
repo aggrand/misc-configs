@@ -30,7 +30,6 @@
 #+end_src
 
 * UI Configuration
-
 ** Keys Setup
 
 #+begin_src emacs-lisp
@@ -159,6 +158,16 @@
 
     ;; autocomplete paired brackets
     (electric-pair-mode 1)
+#+end_src
+
+** Modeline
+Use the doom modeline. Note: you need to run ~M-x all-the-icons-install-fonts~ when you first run this config on a new machine.
+#+begin_src emacs-lisp
+(use-package all-the-icons)
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 10)))
 #+end_src
 
 * Development
@@ -300,6 +309,11 @@ npm install -g typescript-language-server typescript
 (add-hook 'c++-mode-hook 'lsp)
 #+end_src
 
+*** Python
+#+begin_src emacs-lisp
+(setq python-shell-interpreter "python3")
+#+end_src
+
 ** Init Helper
 #+begin_src emacs-lisp
 (setq user-init-file "~/.emacs.d/init.el")
@@ -312,7 +326,6 @@ npm install -g typescript-language-server typescript
 #+end_src
 
 * Org Mode
-
 ** Basic Setup
 #+begin_src emacs-lisp
   ;; TODO: remove underline

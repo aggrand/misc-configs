@@ -135,6 +135,12 @@
 ;; autocomplete paired brackets
 (electric-pair-mode 1)
 
+(use-package all-the-icons)
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 10)))
+
 (use-package projectile
   :diminish projectile-mode
   :config (projectile-mode)
@@ -236,6 +242,8 @@
 
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
+
+(setq python-shell-interpreter "python3")
 
 (setq user-init-file "~/.emacs.d/init.el")
 (defun open-init-file ()
