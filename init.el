@@ -1,6 +1,6 @@
 (require 'package)
-(add-to-list 'package-archives '(("melpa" . "http://melpa.org/packages/")
-                                 ("gnu" . "http://elpa.gnu.org/packages/")))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (package-initialize)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -120,9 +120,10 @@
 (global-display-line-numbers-mode)
 ;; (setq display-line-numbers 'relative)
 (dolist (mode '(org-mode-hook
-		term-mode-hook
-		shell-mode-hook
-		eshell-mode-hook))
+                term-mode-hook
+                shell-mode-hook
+                treemacs-mode-hook
+                eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; Make ESC quit prompts
@@ -149,17 +150,20 @@
   "p" 'projectile-command-map)
 
 (use-package company
-    :after lsp-mode
-    :hook (lsp-mode . company-mode)
-    :bind (:map company-active-map
-           ("<tab>" . company-complete-selection))
-          (:map lsp-mode-map
-           ("<tab>" . company-indent-or-complete-common))
-    :custom
-    (company-minimum-prefix-length 1)
-    (company-idle-delay 0.0))
+        :after lsp-mode
+        :hook (lsp-mode . company-mode)
+        :bind (:map company-active-map
+               ("<tab>" . company-complete-selection))
+              (:map lsp-mode-map
+               ("<tab>" . company-indent-or-complete-common))
+        :custom
+        (company-minimum-prefix-length 1)
+        (company-idle-delay 0.0))
 
-(setq company-backends '((company-capf company-dabbrev-code)))
+    (setq company-backends '((company-capf company-dabbrev-code)))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
 
 (use-package magit)
 
@@ -176,18 +180,33 @@
 (crw/leader-keys
   "t" 'term)
 
-(defun efs/lsp-mode-setup ()
-  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-  (lsp-headerline-breadcrumb-mode))
+(defun lsp-mode-setup ()
+        (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+        (lsp-headerline-breadcrumb-mode))
 
-  (use-package lsp-mode
-      :commands (lsp lsp-deferred)
-      :hook (lsp-mode . efs/lsp-mode-setup)
-      :init
-      ;; TODO: Properly use the general leader.
-      (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-c l' 'C-l', 's-l'
-      :config
-      (lsp-enable-which-key-integration t))
+        (use-package lsp-mode
+            :commands (lsp lsp-deferred)
+            :hook (lsp-mode . lsp-mode-setup)
+            :init
+            ;; TODO: Properly use the general leader.
+            (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-c l' 'C-l', 's-l'
+            (setq lsp-log-io t)
+            :config
+            (lsp-enable-which-key-integration t)
+            :custom
+            (lsp-prefer-capf t)
+            (lsp-auto-guess-root t)             
+            (lsp-keep-workspace-alive nil))
+
+(use-package lsp-ivy)
+
+    (use-package lsp-ui
+      :hook (lsp-mode . lsp-ui-mode)
+      :custom
+      (lsp-ui-doc-position 'bottom))
+
+  (use-package lsp-treemacs
+    :after lsp)
 
 (load-file "~/.emacs.d/bazel/bazel.el")
 (add-to-list 'auto-mode-alist '("\\.star\\'" . bazel-starlark-mode))
