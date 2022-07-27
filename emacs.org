@@ -188,6 +188,18 @@ Use the doom modeline. Note: you need to run ~M-x all-the-icons-install-fonts~ w
 (crw/leader-keys
   "p" 'projectile-command-map)
 #+end_src
+*** Project-Specific Configs
+# TODO: Automate based on dir name?
+
+Requires a pyenv environment configured with ~pyenv virtualenv <python_version> <environment_name>~
+
+#+begin_src emacs-lisp
+(dir-locals-set-class-variables 'signal-processing-service
+   '((nil . ((projectile-project-name . "signal-processing-service")))))
+
+(dir-locals-set-directory-class
+   "~/projects/signal-processing-service" 'signal-processing-service)
+#+end_src
 ** Company Mode
 #+begin_src emacs-lisp
         (use-package company

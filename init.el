@@ -155,6 +155,12 @@
 (crw/leader-keys
   "p" 'projectile-command-map)
 
+(dir-locals-set-class-variables 'signal-processing-service
+   '((nil . ((projectile-project-name . "signal-processing-service")))))
+
+(dir-locals-set-directory-class
+   "~/projects/signal-processing-service" 'signal-processing-service)
+
 (use-package company
         :after lsp-mode
         :hook (lsp-mode . company-mode)
