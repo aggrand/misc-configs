@@ -243,7 +243,27 @@
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 
-(setq python-shell-interpreter "python3")
+(use-package python-mode
+          :ensure t
+          :hook (python-mode . lsp-deferred))
+
+  (use-package pyenv-mode
+    ;; Integrate pyenv with Python-mode
+    :init
+    (let ((pyenv-path (expand-file-name "~/.pyenv/bin")))
+      (setenv "PATH" (concat pyenv-path ":" (getenv "PATH")))
+      (add-to-list 'exec-path pyenv-path))
+    :config
+    (pyenv-mode))
+
+(defun projectile-pyenv-mode-set ()
+  "Set pyenv version matching project name."
+  (let ((project (projectile-project-name)))
+    (if (member project (pyenv-mode-versions))
+        (pyenv-mode-set project)
+      (pyenv-mode-unset))))
+
+(add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
 
 (setq user-init-file "~/.emacs.d/init.el")
 (defun open-init-file ()

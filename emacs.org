@@ -311,7 +311,27 @@ npm install -g typescript-language-server typescript
 
 *** Python
 #+begin_src emacs-lisp
-(setq python-shell-interpreter "python3")
+        (use-package python-mode
+          :ensure t
+          :hook (python-mode . lsp-deferred))
+
+  (use-package pyenv-mode
+    ;; Integrate pyenv with Python-mode
+    :init
+    (let ((pyenv-path (expand-file-name "~/.pyenv/bin")))
+      (setenv "PATH" (concat pyenv-path ":" (getenv "PATH")))
+      (add-to-list 'exec-path pyenv-path))
+    :config
+    (pyenv-mode))
+
+(defun projectile-pyenv-mode-set ()
+  "Set pyenv version matching project name."
+  (let ((project (projectile-project-name)))
+    (if (member project (pyenv-mode-versions))
+        (pyenv-mode-set project)
+      (pyenv-mode-unset))))
+
+(add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
 #+end_src
 
 ** Init Helper
