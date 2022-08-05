@@ -12,7 +12,10 @@
  '(initial-frame-alist '((fullscreen . maximized)))
  '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(org-tempo visual-fill-column org-bullets forge evil-magit magit projectile hydra general ivy-rich rainbow-delimiters markdown-mode evil-collection ivy-prescient prescient doom-modeline yaml-mode counsel ivy which-key darktooth-theme key-chord evil)))
+   '(org-tempo visual-fill-column org-bullets forge evil-magit magit projectile hydra general ivy-rich rainbow-delimiters markdown-mode evil-collection ivy-prescient prescient doom-modeline yaml-mode counsel ivy which-key darktooth-theme key-chord evil))
+ '(safe-local-variable-values
+   '((projectile-project-name . "data-pipes")
+     (projectile-project-name . "signal-processing-service"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -161,6 +164,12 @@
 (dir-locals-set-directory-class
    "~/projects/signal-processing-service" 'signal-processing-service)
 
+(dir-locals-set-class-variables 'data-pipes
+   '((nil . ((projectile-project-name . "data-pipes")))))
+
+(dir-locals-set-directory-class
+   "~/projects/data-pipes" 'data-pipes)
+
 (use-package company
         :after lsp-mode
         :hook (lsp-mode . company-mode)
@@ -249,27 +258,37 @@
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 
-(use-package python-mode
-          :ensure t
-          :hook (python-mode . lsp-deferred))
+;;(use-package python-mode
+  ;;  :ensure t
+  ;;  :hook (python-mode . lsp-deferred)
+  ;;  :custom
+  ;;  (dap-python-debugger 'debugpy)
+  ;;  :config
+  ;;  (require 'dap-python))
 
+(use-package lsp-python-ms
+:ensure t
+:init (setq lsp-python-ms-auto-install-server t)
+:hook (python-mode . (lambda ()
+                        (require 'lsp-python-ms)
+                        (lsp-deferred))))  ; or lsp-deferred
   (use-package pyenv-mode
-    ;; Integrate pyenv with Python-mode
-    :init
-    (let ((pyenv-path (expand-file-name "~/.pyenv/bin")))
+      ;; Integrate pyenv with Python-mode
+      :init
+      (let ((pyenv-path (expand-file-name "~/.pyenv/bin")))
       (setenv "PATH" (concat pyenv-path ":" (getenv "PATH")))
       (add-to-list 'exec-path pyenv-path))
-    :config
-    (pyenv-mode))
+      :config
+      (pyenv-mode))
 
-(defun projectile-pyenv-mode-set ()
-  "Set pyenv version matching project name."
-  (let ((project (projectile-project-name)))
-    (if (member project (pyenv-mode-versions))
-        (pyenv-mode-set project)
-      (pyenv-mode-unset))))
+    (defun projectile-pyenv-mode-set ()
+      "Set pyenv version matching project name."
+      (let ((project (projectile-project-name)))
+        (if (member project (pyenv-mode-versions))
+            (pyenv-mode-set project)
+          (pyenv-mode-unset))))
 
-(add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
+    (add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
 
 (setq user-init-file "~/.emacs.d/init.el")
 (defun open-init-file ()

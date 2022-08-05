@@ -192,7 +192,7 @@ Use the doom modeline. Note: you need to run ~M-x all-the-icons-install-fonts~ w
 # TODO: Automate based on dir name?
 
 Requires a pyenv environment configured with ~pyenv virtualenv <python_version> <environment_name>~
-
+**** Signal-processing service
 #+begin_src emacs-lisp
 (dir-locals-set-class-variables 'signal-processing-service
    '((nil . ((projectile-project-name . "signal-processing-service")))))
@@ -200,6 +200,15 @@ Requires a pyenv environment configured with ~pyenv virtualenv <python_version> 
 (dir-locals-set-directory-class
    "~/projects/signal-processing-service" 'signal-processing-service)
 #+end_src
+**** Data-pipes
+#+begin_src emacs-lisp
+(dir-locals-set-class-variables 'data-pipes
+   '((nil . ((projectile-project-name . "data-pipes")))))
+
+(dir-locals-set-directory-class
+   "~/projects/data-pipes" 'data-pipes)
+#+end_src
+
 ** Company Mode
 #+begin_src emacs-lisp
         (use-package company
@@ -323,27 +332,37 @@ npm install -g typescript-language-server typescript
 
 *** Python
 #+begin_src emacs-lisp
-        (use-package python-mode
-          :ensure t
-          :hook (python-mode . lsp-deferred))
+    ;;(use-package python-mode
+    ;;  :ensure t
+    ;;  :hook (python-mode . lsp-deferred)
+    ;;  :custom
+    ;;  (dap-python-debugger 'debugpy)
+    ;;  :config
+    ;;  (require 'dap-python))
 
-  (use-package pyenv-mode
-    ;; Integrate pyenv with Python-mode
-    :init
-    (let ((pyenv-path (expand-file-name "~/.pyenv/bin")))
-      (setenv "PATH" (concat pyenv-path ":" (getenv "PATH")))
-      (add-to-list 'exec-path pyenv-path))
-    :config
-    (pyenv-mode))
+  (use-package lsp-python-ms
+  :ensure t
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-python-ms)
+                          (lsp-deferred))))  ; or lsp-deferred
+    (use-package pyenv-mode
+        ;; Integrate pyenv with Python-mode
+        :init
+        (let ((pyenv-path (expand-file-name "~/.pyenv/bin")))
+        (setenv "PATH" (concat pyenv-path ":" (getenv "PATH")))
+        (add-to-list 'exec-path pyenv-path))
+        :config
+        (pyenv-mode))
 
-(defun projectile-pyenv-mode-set ()
-  "Set pyenv version matching project name."
-  (let ((project (projectile-project-name)))
-    (if (member project (pyenv-mode-versions))
-        (pyenv-mode-set project)
-      (pyenv-mode-unset))))
+      (defun projectile-pyenv-mode-set ()
+        "Set pyenv version matching project name."
+        (let ((project (projectile-project-name)))
+          (if (member project (pyenv-mode-versions))
+              (pyenv-mode-set project)
+            (pyenv-mode-unset))))
 
-(add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
+      (add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
 #+end_src
 
 ** Init Helper
