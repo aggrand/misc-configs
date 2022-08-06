@@ -29,6 +29,25 @@
   (setq use-package-always-ensure t)
 #+end_src
 
+* Pathing
+#+begin_src emacs-lisp
+(defun set-exec-path-from-shell-PATH ()
+  "Set up Emacs' `exec-path' and PATH environment variable to match
+that used by the user's shell.
+
+This is particularly useful under Mac OS X and macOS, where GUI
+apps are not started from a shell."
+  (interactive)
+  (let ((path-from-shell (replace-regexp-in-string
+			  "[ \t\n]*$" "" (shell-command-to-string
+					  "$SHELL --login -c 'echo $PATH'"
+						    ))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(set-exec-path-from-shell-PATH)
+#+end_src
+
 * UI Configuration
 ** Keys Setup
 
@@ -75,6 +94,12 @@
 
 (scroll-bar-mode -1)
 
+(defhydra hydra-switch-buffer (:timeout 4)
+  "switch buffer"
+  ("j" next-buffer "next":exit t)
+  ("k" previous-buffer "previous":exit t))
+(crw/leader-keys
+  "b" '(hydra-switch-buffer/body :which-key "buffer"))
 #+end_src
 
 ** Counsel-Ivy
@@ -145,6 +170,7 @@
     ;; (setq display-line-numbers 'relative)
     (dolist (mode '(org-mode-hook
                     term-mode-hook
+                    vterm-mode-hook
                     shell-mode-hook
                     treemacs-mode-hook
                     eshell-mode-hook))
@@ -168,6 +194,19 @@ Use the doom modeline. Note: you need to run ~M-x all-the-icons-install-fonts~ w
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 10)))
+#+end_src
+
+* File Management
+#+begin_src emacs-lisp
+(use-package dired
+  :ensure nil
+  :custom ((dired-listing-switches "-lagho --group-directories-first"))
+  :commands (dired dired-jump)
+  :bind (("C-x C-j" . dired-jump))
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-up-directory
+    "l" 'dired-find-file))
 #+end_src
 
 * Development
@@ -241,10 +280,15 @@ Requires a pyenv environment configured with ~pyenv virtualenv <python_version> 
 #+end_src
 ** Terminal
 #+begin_src emacs-lisp
-(setq explicit-shell-file-name "/usr/local/bin/zsh")
+;;(setq explicit-shell-file-name "/usr/local/bin/zsh")
+(use-package vterm
+    :ensure t
+    :init
+    (setq vterm-shell "/usr/local/bin/fish")
+)
 
 (crw/leader-keys
-  "t" 'term)
+  "t" 'vterm)
 #+end_src
 ** Languages
 *** Language Servers

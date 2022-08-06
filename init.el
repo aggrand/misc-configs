@@ -2,26 +2,45 @@
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
   (package-initialize)
-  (custom-set-variables
-   ;; custom-set-variables was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(custom-safe-themes
-     '("d2e0c53dbc47b35815315fae5f352afd2c56fa8e69752090990563200daae434" default))
-   '(initial-frame-alist '((fullscreen . maximized)))
-   '(org-export-backends '(ascii html icalendar latex md odt))
-   '(package-selected-packages
-     '(org-tempo visual-fill-column org-bullets forge evil-magit magit projectile hydra general ivy-rich rainbow-delimiters markdown-mode evil-collection ivy-prescient prescient doom-modeline yaml-mode counsel ivy which-key darktooth-theme key-chord evil)))
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   )
+  
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("d2e0c53dbc47b35815315fae5f352afd2c56fa8e69752090990563200daae434" default))
+ '(initial-frame-alist '((fullscreen . maximized)))
+ '(org-export-backends '(ascii html icalendar latex md odt))
+ '(package-selected-packages
+   '(org-tempo visual-fill-column org-bullets forge evil-magit magit projectile hydra general ivy-rich rainbow-delimiters markdown-mode evil-collection ivy-prescient prescient doom-modeline yaml-mode counsel ivy which-key darktooth-theme key-chord evil))
+ '(safe-local-variable-values '((projectile-project-name . "data-pipes"))))
+  
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
   (require 'use-package)
   (setq use-package-always-ensure t)
+
+(defun set-exec-path-from-shell-PATH ()
+  "Set up Emacs' `exec-path' and PATH environment variable to match
+that used by the user's shell.
+
+This is particularly useful under Mac OS X and macOS, where GUI
+apps are not started from a shell."
+  (interactive)
+  (let ((path-from-shell (replace-regexp-in-string
+			  "[ \t\n]*$" "" (shell-command-to-string
+					  "$SHELL --login -c 'echo $PATH'"
+						    ))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(set-exec-path-from-shell-PATH)
 
   (use-package which-key
     :config
@@ -57,6 +76,13 @@
 (setq ring-bell-function 'ignore)
 
 (scroll-bar-mode -1)
+
+(defhydra hydra-switch-buffer (:timeout 4)
+  "switch buffer"
+  ("j" next-buffer "next":exit t)
+  ("k" previous-buffer "previous":exit t))
+(crw/leader-keys
+  "b" '(hydra-switch-buffer/body :which-key "buffer"))
 
 ;; TODO: Previous line doesn't work.
 ;; TODO: A better indicator? > instead of highlight?
@@ -121,6 +147,7 @@
     ;; (setq display-line-numbers 'relative)
     (dolist (mode '(org-mode-hook
                     term-mode-hook
+                    vterm-mode-hook
                     shell-mode-hook
                     treemacs-mode-hook
                     eshell-mode-hook))
@@ -140,6 +167,17 @@
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 10)))
+
+(use-package dired
+  :ensure nil
+  :custom ((dired-listing-switches "-agho --group-directories-first"))
+  :commands (dired dired-jump)
+  :bind (("C-x C-j" . dired-jump))
+  :config
+  (setq insert-directory-program "gls" dired-use-ls-dired t)
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-up-directory
+    "l" 'dired-find-file))
 
 (use-package projectile
   :diminish projectile-mode
@@ -192,10 +230,15 @@
 ;; TODO: Authenticate
 (use-package forge)
 
-(setq explicit-shell-file-name "/usr/local/bin/zsh")
+;;(setq explicit-shell-file-name "/usr/local/bin/zsh")
+(use-package vterm
+    :ensure t
+    :init
+    (setq vterm-shell "/usr/local/bin/fish")
+)
 
 (crw/leader-keys
-  "t" 'term)
+  "t" 'vterm)
 
             (defun lsp-mode-setup ()
               (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
