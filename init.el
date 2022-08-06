@@ -2,26 +2,23 @@
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
   (package-initialize)
-  
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("d2e0c53dbc47b35815315fae5f352afd2c56fa8e69752090990563200daae434" default))
- '(initial-frame-alist '((fullscreen . maximized)))
- '(org-export-backends '(ascii html icalendar latex md odt))
- '(package-selected-packages
-   '(org-tempo visual-fill-column org-bullets forge evil-magit magit projectile hydra general ivy-rich rainbow-delimiters markdown-mode evil-collection ivy-prescient prescient doom-modeline yaml-mode counsel ivy which-key darktooth-theme key-chord evil))
- '(safe-local-variable-values '((projectile-project-name . "data-pipes"))))
-  
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(custom-safe-themes
+     '("d2e0c53dbc47b35815315fae5f352afd2c56fa8e69752090990563200daae434" default))
+   '(initial-frame-alist '((fullscreen . maximized)))
+   '(org-export-backends '(ascii html icalendar latex md odt))
+   '(package-selected-packages
+     '(org-tempo visual-fill-column org-bullets forge evil-magit magit projectile hydra general ivy-rich rainbow-delimiters markdown-mode evil-collection ivy-prescient prescient doom-modeline yaml-mode counsel ivy which-key darktooth-theme key-chord evil)))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
 
   (require 'use-package)
   (setq use-package-always-ensure t)
@@ -170,14 +167,27 @@ apps are not started from a shell."
 
 (use-package dired
   :ensure nil
-  :custom ((dired-listing-switches "-agho --group-directories-first"))
+  :custom ((dired-listing-switches "-lagho --group-directories-first"))
   :commands (dired dired-jump)
   :bind (("C-x C-j" . dired-jump))
   :config
   (setq insert-directory-program "gls" dired-use-ls-dired t)
   (evil-collection-define-key 'normal 'dired-mode-map
-    "h" 'dired-up-directory
-    "l" 'dired-find-file))
+    "h" 'dired-single-up-directory
+    "l" 'dired-single-buffer))
+
+(use-package dired-single)
+
+;; TODO: Add dired-open if I'm ever motivated to.
+
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package dired-hide-dotfiles
+  :hook (dired-mode . dired-hide-dotfiles-mode)
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "H" 'dired-hide-dotfiles-mode))
 
 (use-package projectile
   :diminish projectile-mode

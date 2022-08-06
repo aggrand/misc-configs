@@ -204,9 +204,23 @@ Use the doom modeline. Note: you need to run ~M-x all-the-icons-install-fonts~ w
   :commands (dired dired-jump)
   :bind (("C-x C-j" . dired-jump))
   :config
+  (setq insert-directory-program "gls" dired-use-ls-dired t)
   (evil-collection-define-key 'normal 'dired-mode-map
-    "h" 'dired-up-directory
-    "l" 'dired-find-file))
+    "h" 'dired-single-up-directory
+    "l" 'dired-single-buffer))
+
+(use-package dired-single)
+
+;; TODO: Add dired-open if I'm ever motivated to.
+
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package dired-hide-dotfiles
+  :hook (dired-mode . dired-hide-dotfiles-mode)
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "H" 'dired-hide-dotfiles-mode))
 #+end_src
 
 * Development
